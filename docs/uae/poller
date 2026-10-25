@@ -1,0 +1,9 @@
+FailAt 21
+Lab loop
+If EXISTS OGLTEST:cmd
+  Delete OGLTEST:cmd.run QUIET
+  Rename OGLTEST:cmd OGLTEST:cmd.run
+  Run >NIL: Execute OGLTEST:cmd.run
+EndIf
+Wait 1
+Skip loop BACK

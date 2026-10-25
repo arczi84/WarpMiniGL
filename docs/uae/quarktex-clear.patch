@@ -1,0 +1,46 @@
+--- a/Warp3D.library/Drawing.c	2012-02-01 23:23:36.000000000 +0100
++++ b/Warp3D.library/Drawing.c	2026-10-25 11:42:16.400763100 +0100
+@@ -88,8 +88,18 @@
+ 		_glClear(GL_COLOR_BUFFER_BIT);
+ 	}
+ 	else {
++		/* Test copy (WarpMiniGL UAE bed): a clear must not be textured,
++		 * blended, alpha/depth tested or leave the vertex colour behind. */
++		if (context->state & W3D_TEXMAPPING) _glDisable(GL_TEXTURE_2D);
++		if (context->state & W3D_BLENDING) _glDisable(GL_BLEND);
++		if (context->state & W3D_ALPHATEST) _glDisable(GL_ALPHA_TEST);
++		if (context->state & W3D_ZBUFFER) _glDisable(GL_DEPTH_TEST);
+ 		_glColor4f(((float) (color << 8 >> 24)) / 256, ((float) (color << 16 >> 24)) / 256, ((float) (color << 24 >> 24)) / 256, ((float) (color >> 24)) / 256);
+ 		_glRecti(0, 0, width, height);
++		if (context->state & W3D_TEXMAPPING) _glEnable(GL_TEXTURE_2D);
++		if (context->state & W3D_BLENDING) _glEnable(GL_BLEND);
++		if (context->state & W3D_ALPHATEST) _glEnable(GL_ALPHA_TEST);
++		if (context->state & W3D_ZBUFFER) _glEnable(GL_DEPTH_TEST);
+ 	}
+ 	return W3D_SUCCESS;
+ }
+\ No newline at end of file
+--- a/gcc/library.c	2026-09-05 19:55:55.984859800 +0200
++++ b/gcc/library.c	2026-10-25 11:42:16.403762900 +0100
+@@ -25,8 +25,8 @@
+ extern void INIT_0_Warp3D(void), EXIT_0_Warp3D(void);
+ extern int qt_bridge_ready(void);
+ struct QTLibrary { struct Library lib; BPTR seglist; };
+-static const char qt_name[] = "Warp3D.library";
+-static const char qt_id[] = "$VER: Warp3D.library 4.3 (5.9.2026) QuarkTex 0.53 GCC depth/blend fix\r\n";
++static const char qt_name[] = "Warp3Q.library";
++static const char qt_id[] = "$VER: Warp3D.library 4.3 (5.9.2026) QuarkTex 0.53 GCC depth/blend fix + clear (WarpMiniGL test, Warp3Q)\r\n";
+ 
+ static BPTR LibExpunge(struct QTLibrary *base __asm("a6"));
+ static struct QTLibrary *LibOpen(struct QTLibrary *base __asm("a6"))
+--- a/gcc/build.sh	2026-09-05 20:15:33.800614600 +0200
++++ b/gcc/build.sh	2026-10-25 11:42:16.426428000 +0100
+@@ -1,7 +1,7 @@
+ #!/usr/bin/env bash
+ set -euo pipefail
+ cd -- "$(dirname -- "$0")/.."
+-toolchain=${QUARKTEX_GCC:-/opt/amiga-gcc16-rc7/bin/m68k-amigaos}
++toolchain=${QUARKTEX_GCC:-/opt/amiga-gcc16-rc14/bin/m68k-amigaos}
+ math_flag=${QUARKTEX_MATH_FLAG:--ffast-math}
+ mkdir -p build-gcc
+ flags=(-std=gnu99 -fgnu89-inline -mcpu=68040 -mhard-float -mcrt=clib2

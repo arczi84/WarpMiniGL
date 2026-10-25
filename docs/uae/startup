@@ -1,0 +1,12 @@
+FailAt 21
+Version Warp3D.library FULL >OGLTEST:out-ver.txt
+Run >NIL: Execute OGLTEST:poller
+MakeDir >NIL: ENV:Freespace
+MakeDir >NIL: ENV:WarpMiniGL
+SetEnv Freespace/wb 1
+SetEnv WarpMiniGL/Fake16 1
+SetEnv WarpMiniGL/Trace 1
+SetEnv WarpMiniGL/LogFile OGLTEST:wm.log
+Assign Freespace_1: OGLTEST:fs1
+CD FSGAME:
+Freespace.exe -nosound -nomusic >OGLTEST:out-fs.txt

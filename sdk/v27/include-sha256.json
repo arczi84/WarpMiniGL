@@ -1,0 +1,18 @@
+{
+  "extra.h": "e7d4398e251efaa67ef1e178549fbcd0a28430c0892028d6f8bc4e782f321e5b",
+  "clib/minigl_protos.h": "9f6794d90e67294b414e861894245d57d9462687607961c8f0dd3fb014e2bc0d",
+  "libraries/minigl.h": "cf252081ca822e8642a79cb5a86047fc859ecf3de8fb114bdfb01f04498d99df",
+  "libraries/minigl_dispatch.h": "8c5d1b150766d79ea58498e4930c7e3da2189451eb36105128198fac809bf447",
+  "libraries/minigl_offsets.h": "8f77679913807f0d504f19f55088a571659d3c626219f2f476950aedf03b762f",
+  "mgl/clip.h": "cc2f9d3bbf89eb68ec06fb106fb729de35bb2539cec264c72b707e3d6a3ba6ca",
+  "mgl/config.h": "82cf16f618d25b90ba6ee226281ae7ccff8113a4481b5aa5838882f44d99b9f5",
+  "mgl/context.h": "21d5f243ec82ebec37ac2079d72e7da6a9a3c78b28d8b5a9d9a42f430803a282",
+  "mgl/gl.h": "bfa868478a809c8e758d484553b8d59c7f9ba0999cfb31bba52ea3bc78b24a13",
+  "mgl/log.h": "56b934dee8dff854df37b77267bd412338f88177668c71b1c516d0a3d1f6b0ce",
+  "mgl/matrix.h": "81f26216aa7407f97f1c8052f7673600e78e1780f8a7948c5564d769acfb7bf2",
+  "mgl/mglmacros.h": "e0f6bd6dd3b07ade47132686782c7892afaa21ffca8fa89dec901b449cf7f80c",
+  "mgl/minigl.h": "e5b1c49bdd73ad4cc6263a8af5bdc1167c4bfc3e8de069cef3c1278aeee9ed9a",
+  "mgl/modes.h": "1514a26944c5294cc00c347f0bdc001faa107f8acb071ef7fe465540a8359a6b",
+  "mgl/vertexbuffer.h": "35e3ab35ec4035ac8acaffb5fe8d7ed686e554b7a66e4e759742d9e6e2651667",
+  "proto/minigl.h": "f6b8e5233dae3e894d8420610b26d354abacf4e1df9d6f9b846237ff36417b6f"
+}
