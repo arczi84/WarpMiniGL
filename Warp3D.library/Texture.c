@@ -75,9 +75,9 @@ void W3D_FreeTexObj(__REGA0(W3D_Context *context),__REGA1(W3D_Texture *texture))
 void wm_free_textures(W3D_Context *context){while(live_count)W3D_FreeTexObj(context,live[live_count-1]);}
 ULONG W3D_FreeAllTexObj(__REGA0(W3D_Context *context)){
     extern void qt_debug(const char *);
-    qt_debug("[WarpMiniGL exit] FreeAllTexObj: begin\n");
+    qt_debug("[" WM_NAME " exit] FreeAllTexObj: begin\n");
     wm_free_textures(context);
-    qt_debug("[WarpMiniGL exit] FreeAllTexObj: done\n");
+    qt_debug("[" WM_NAME " exit] FreeAllTexObj: done\n");
     return W3D_SUCCESS;
 }
 void W3D_ReleaseTexture(__REGA0(W3D_Context *context),__REGA1(W3D_Texture *texture)){}

@@ -26,6 +26,7 @@ extern int wm_resize(int,int);
 extern void wm_sync_bitmap(W3D_Context *context);
 #ifdef WM_BORROWED_BITMAP
 extern int wm_target_region(struct BitMap *,int,int,int);
+extern int wm_retarget(struct BitMap *,int,int,int);
 extern ULONG W3D_GetDriverState(__REGA0(W3D_Context *context));
 #endif
 ULONG W3D_SetDrawRegion(__REGA0(W3D_Context *context), __REGA1(struct BitMap *bm), __REGD1(int yoffset), __REGA2(W3D_Scissor *scissor)) {
@@ -36,7 +37,7 @@ ULONG W3D_SetDrawRegion(__REGA0(W3D_Context *context), __REGA1(struct BitMap *bm
     { W3D_Context next=*context;next.drawregion=bm;next.yoffset=yoffset;wm_trace_event("region-request",&next); }
 #endif
     w=GetBitMapAttr(bm,BMA_WIDTH);h=GetBitMapAttr(bm,BMA_HEIGHT)-yoffset;
-#ifdef WM_TARGET_COPY
+#ifdef WM_TARGET_HOOKS
     if(context->state&W3D_DOUBLEHEIGHT)h=GetBitMapAttr(bm,BMA_HEIGHT)/2;
 #endif
     if(w<=0||h<=0)return W3D_ILLEGALBITMAP;
@@ -49,10 +50,14 @@ ULONG W3D_SetDrawRegion(__REGA0(W3D_Context *context), __REGA1(struct BitMap *bm
 #ifdef WM_BORROWED_BITMAP
     {ULONG status=W3D_GetDriverState(context);if(status!=W3D_SUCCESS)return status;}
 #endif
+#ifdef WM_GLES
+    /* ogles2 renders into the game's own bitmap: follow its buffer rotation. */
+    if(!wm_retarget(bm,yoffset,w,h))return W3D_UNSUPPORTED;
+#endif
     if((w!=width||h!=height)&&!wm_resize(w,h))return W3D_UNSUPPORTED;
     width=w;height=h;context->width=w;context->height=h;
     context->drawregion=bm;context->yoffset=yoffset;
-#ifdef WM_TARGET_COPY
+#ifdef WM_TARGET_HOOKS
     {extern void wm_describe_target(W3D_Context *);wm_describe_target(context);}
 #endif
     if(scissor)W3D_SetScissor(context,scissor);

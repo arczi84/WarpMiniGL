@@ -29,7 +29,7 @@ extern void wm_exit(void);
 void INIT_0_Warp3D(void) {
     driver.ChipID=W3D_CHIP_UNKNOWN;
     driver.formats=W3D_FMT_R8G8B8|W3D_FMT_A8R8G8B8|W3D_FMT_R8G8B8A8;
-    driver.name="WarpMiniGL";driver.swdriver=W3D_FALSE;
+    driver.name=WM_NAME;driver.swdriver=W3D_FALSE;
     IntuitionBase=(struct IntuitionBase *)OpenLibrary("intuition.library",39);
     GfxBase=(struct GfxBase *)OpenLibrary("graphics.library",39);
     P96Base=OpenLibrary("Picasso96API.library",2);

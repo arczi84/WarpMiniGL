@@ -54,7 +54,7 @@ ULONG W3D_LockHardware(__REGA0(W3D_Context *context)) {
 
 	LOG;
 	sync_window(context);
-#ifdef WM_TARGET_COPY
+#ifdef WM_TARGET_HOOKS
 	{extern void wm_lock(W3D_Context *);wm_lock(context);}
 #endif
 	context->HWlocked = W3D_TRUE;
@@ -67,7 +67,7 @@ void W3D_UnLockHardware(__REGA0(W3D_Context *context)) {
 
 	LOG;
 	_glFinish();
-#ifdef WM_TARGET_COPY
+#ifdef WM_TARGET_HOOKS
 	{extern void wm_unlock_cpu(W3D_Context *);wm_unlock_cpu(context);}
 #endif
 	wm_sync_bitmap(context);
@@ -148,7 +148,7 @@ void W3D_WaitIdle(__REGA0(W3D_Context *context)) {
 
 	LOG;
 	_glFinish();
-#ifdef WM_TARGET_COPY
+#ifdef WM_TARGET_HOOKS
 	{extern void wm_unlock_cpu(W3D_Context *);wm_unlock_cpu(context);}
 #endif
 	wm_sync_bitmap(context);
@@ -165,7 +165,7 @@ ULONG W3D_CheckIdle(__REGA0(W3D_Context *context)) {
 static ULONG wm_query(ULONG query){
     GLint limit=256;
     if(query>=W3D_Q_MAXTEXWIDTH && query<=W3D_Q_MAXTEXHEIGHT_P){
-        if(MiniGLDispatch && MC)MiniGLDispatch->GLGetIntegerv(MC,GL_MAX_TEXTURE_SIZE,&limit);
+        _glGetIntegerv(GL_MAX_TEXTURE_SIZE,&limit);
         return limit>0?limit:256;
     }
     switch(query){

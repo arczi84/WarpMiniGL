@@ -33,6 +33,9 @@ ULONG W3D_DrawTriFan(__REGA0(W3D_Context *context), __REGA1(W3D_Triangles *trian
 	W3D_Vertex *v;
 	LOG;
 	v = triangles->v;
+#ifdef WM_GLES
+	{extern void wg_dump_fan(W3D_Context *,W3D_Triangles *);wg_dump_fan(context,triangles);}
+#endif
 	if (context->state & W3D_TEXMAPPING) bindTexture(triangles->tex);
 	_glBegin(GL_TRIANGLE_FAN);
 	for (i = 0; i < triangles->vertexcount; ++i) {

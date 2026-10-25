@@ -6,7 +6,20 @@
 #include <proto/asl.h>
 
 #include "Warp3D.h"
-#include "../gl/gl.h"
+/* gl/gl.h comes from the backend being built (-I<backend root>): MiniGL
+ * dispatch here, ogles2 in WarpGLES, which shares this Warp3D layer. */
+#include "gl/gl.h"
+#ifdef WM_GLES
+#define WM_NAME "WarpGLES"
+#else
+#define WM_NAME "WarpMiniGL"
+#endif
+/* Backends that publish the destination to the program (drawmem) and take
+ * its CPU drawing into the renderer: wm_describe_target, wm_lock and
+ * wm_unlock_cpu are implemented by the backend. */
+#if defined(WM_TARGET_COPY) || defined(WM_GLES)
+#define WM_TARGET_HOOKS 1
+#endif
 #ifdef WM_FRAME_TRACE
 void wm_trace_event(const char *event,W3D_Context *context);
 void wm_trace_start(struct BitMap *bitmap);

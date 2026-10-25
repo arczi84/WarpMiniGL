@@ -49,6 +49,8 @@ extern void wm_seed(void);
 #define _glFogi(a,b) _glFogf(a,b)
 #define _glFrontFace(a) MiniGLDispatch->GLFrontFace(MC,a)
 #define _glGenTextures(a,b) MiniGLDispatch->GLGenTextures(MC,a,b)
+#define _glGetIntegerv(a,b) (MiniGLDispatch&&MC?MiniGLDispatch->GLGetIntegerv(MC,a,b):(void)0)
+#define _glClearDepth(a) MiniGLDispatch->GLClearDepth(MC,a)
 #define _glLoadIdentity() MiniGLDispatch->GLLoadIdentity(MC)
 #define _glMatrixMode(a) MiniGLDispatch->GLMatrixMode(MC,a)
 #define _glPixelStorei(a,b) MiniGLDispatch->GLPixelStorei(MC,a,b)

@@ -13,7 +13,7 @@ static int creating;
 void sync_window(W3D_Context *context) { (void)context; }
 W3D_Context *W3D_CreateContext(__REGA0(ULONG *error),__REGA1(struct TagItem *tags)) {
     W3D_Context *context;struct BitMap *bitmap=NULL;ULONG yoffset=0;
-#ifdef WM_TARGET_COPY
+#ifdef WM_TARGET_HOOKS
     ULONG doubleheight=0;
 #endif
     if(error)*error=W3D_NODRIVER;
@@ -22,13 +22,13 @@ W3D_Context *W3D_CreateContext(__REGA0(ULONG *error),__REGA1(struct TagItem *tag
     for(;tags && tags->ti_Tag!=TAG_DONE;++tags){
         if(tags->ti_Tag==W3D_CC_BITMAP)bitmap=(struct BitMap *)tags->ti_Data;
         if(tags->ti_Tag==W3D_CC_YOFFSET)yoffset=tags->ti_Data;
-#ifdef WM_TARGET_COPY
+#ifdef WM_TARGET_HOOKS
         if(tags->ti_Tag==W3D_CC_DOUBLEHEIGHT)doubleheight=tags->ti_Data!=0;
 #endif
     }
     if(!bitmap){if(error)*error=W3D_ILLEGALBITMAP;return NULL;}
     width=GetBitMapAttr(bitmap,BMA_WIDTH);height=GetBitMapAttr(bitmap,BMA_HEIGHT)-yoffset;
-#ifdef WM_TARGET_COPY
+#ifdef WM_TARGET_HOOKS
     if(doubleheight)height=GetBitMapAttr(bitmap,BMA_HEIGHT)/2;
 #endif
     if(width<=0||height<=0){if(error)*error=W3D_ILLEGALBITMAP;return NULL;}
@@ -43,11 +43,11 @@ W3D_Context *W3D_CreateContext(__REGA0(ULONG *error),__REGA1(struct TagItem *tag
     context->drawregion=bitmap;context->yoffset=yoffset;
     context->width=width;context->height=height;
     context->scissor.width=width;context->scissor.height=height;
-#ifdef WM_TARGET_COPY
+#ifdef WM_TARGET_HOOKS
     {extern void wm_describe_target(W3D_Context *);wm_describe_target(context);}
 #endif
     context->state=W3D_AUTOTEXMANAGEMENT|W3D_TEXMAPPING|W3D_GOURAUD|W3D_ZBUFFERUPDATE;
-#ifdef WM_TARGET_COPY
+#ifdef WM_TARGET_HOOKS
     if(doubleheight)context->state|=W3D_DOUBLEHEIGHT;
 #endif
 #ifdef WM_FRAME_TRACE
@@ -63,13 +63,13 @@ void W3D_DestroyContext(__REGA0(W3D_Context *context)) {
     extern void wm_free_textures(W3D_Context *);
     extern void qt_debug(const char *);
     if(!context||context!=active)return;
-    qt_debug("[WarpMiniGL exit] DestroyContext: textures begin\n");
+    qt_debug("[" WM_NAME " exit] DestroyContext: textures begin\n");
     wm_free_textures(context);
-    qt_debug("[WarpMiniGL exit] DestroyContext: textures done\n");
+    qt_debug("[" WM_NAME " exit] DestroyContext: textures done\n");
     wm_destroy();active=NULL;
-    qt_debug("[WarpMiniGL exit] DestroyContext: free wrapper context begin\n");
+    qt_debug("[" WM_NAME " exit] DestroyContext: free wrapper context begin\n");
     free(context);
-    qt_debug("[WarpMiniGL exit] DestroyContext: done\n");
+    qt_debug("[" WM_NAME " exit] DestroyContext: done\n");
 }
 ULONG W3D_GetState(__REGA0(W3D_Context *context), __REGD1(ULONG state)) {
 	LOG;

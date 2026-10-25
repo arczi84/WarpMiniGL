@@ -31,7 +31,7 @@ if [[ "$variant" == v27 || "$variant" == v27_2 ]];then
  sdkflags=(-I"$out/client" "${sdkflags[@]}")
 fi
 perl gcc/generate.pl vectors > "$out/vectors.inc"
-flags=(-std=gnu99 -fgnu89-inline -mcpu=68040 -mhard-float -mcrt=clib2 -O2 -fno-fast-math -fno-strict-aliasing -fno-builtin -fcommon "${sdkflags[@]}" -Igcc -I"$out" -include gcc/compat.h -D__M68K__ -DMINIGL_LIBRARY_BUILD -DUSE_MGLAPI)
+flags=(-std=gnu99 -fgnu89-inline -mcpu=68040 -mhard-float -mcrt=clib2 -O2 -fno-fast-math -fno-strict-aliasing -fno-builtin -fcommon "${sdkflags[@]}" -I. -Igcc -I"$out" -include gcc/compat.h -D__M68K__ -DMINIGL_LIBRARY_BUILD -DUSE_MGLAPI)
 flags+=("${modeflags[@]}")
 if [[ "$variant" == v29_1 ]];then flags+=(-DWM_V291);fi
 for src in Warp3D.library/*.c gcc/library.c gcc/runtime.c gcc/backend.c gcc/frame_trace.c "$sdkroot/client/minigl_base.c" "$sdkroot/client/minigl_open.c";do

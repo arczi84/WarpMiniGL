@@ -136,7 +136,7 @@ int main(void){
 }
 '''
 if '--copy' in sys.argv:
-    header = '#define WM_TARGET_COPY 1\n' + header
+    header = '#define WM_TARGET_COPY 1\n#define WM_TARGET_HOOKS 1\n' + header
     header = header.replace('W3D_Scissor scissor;} W3D_Context;', 'W3D_Scissor scissor;ULONG state;} W3D_Context;')
     header += r'''
 #include <stdlib.h>
